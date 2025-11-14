@@ -1,9 +1,37 @@
 
+import axios from "axios";
 import React, { useState } from "react";
 
 export default function Login() {
   const [isSignUp, setIsSignUp] = useState(false);
-   
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState(""); 
+  
+  // defining login 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    // try to login
+    try {
+      // send request to backend
+      axios.post(`${import.meta.env.VITE_BASE_URL}users/login`, {
+        email,
+        password,
+      }).then((res) => {
+        console.log(res);
+        alert(res.data.message);
+        localStorage.setItem("token", res.data.token);
+        window.location.href = "/dashboard";
+      }).catch((err) => {
+        console.log(err);
+        alert(err.response.data.message);
+        alert(err.response.data.error);
+      })
+    } catch (error) {
+      console.log(error);
+      alert(error.message);
+    }
+  }
 
   
 
@@ -17,7 +45,7 @@ export default function Login() {
         </h2>
 
         {/* Form */}
-        <form action="" method="post" className="flex flex-col gap-4">
+        <form action="" method="post" onSubmit={handleSubmit} className="flex flex-col gap-4">
 
           {/* Signup extra field */}
           {isSignUp && (
@@ -32,6 +60,8 @@ export default function Login() {
             type="email"
             placeholder="Email"
             className="p-3 rounded-lg bg-gray-700 outline-none"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             
           />
 
@@ -39,7 +69,9 @@ export default function Login() {
             type="password"
             placeholder="Password"
             className="p-3 rounded-lg bg-gray-700 outline-none"
-            
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
           />
 
           {isSignUp && (
