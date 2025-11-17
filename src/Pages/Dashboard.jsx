@@ -33,12 +33,12 @@ function Dashboard() {
                 <p>
                   Total: <span className="text-cyan-300 font-medium">63</span>
                 </p>
-                <p>
+                {/* <p>
                   Paid: <span className="text-green-400 font-medium">8</span>
                 </p>
                 <p>
                   Free: <span className="text-yellow-400 font-medium">55</span>
-                </p>
+                </p> */}
               </div>
             </div>
           </div>
@@ -54,22 +54,35 @@ function Dashboard() {
               />
               <div>
                 <h2 className="text-xl font-semibold text-purple-400">
-                  Subscriptions
+                  Active Plan
                 </h2>
                 <p>
                   Active: <span className="text-cyan-300 font-medium">28</span>
                 </p>
-                <p>
-                  Expired: <span className="text-red-400 font-medium">15</span>
-                </p>
-                <p>
-                  Pending: <span className="text-yellow-400 font-medium">7</span>
-                </p>
+                
               </div>
             </div>
           </div>
 
           {/* Card 3 */}
+          <div className="group relative bg-gradient-to-br from-gray-800/70 to-gray-900/60 border border-gray-700 backdrop-blur-xl rounded-2xl p-6 overflow-hidden shadow-lg hover:shadow-cyan-500/30 hover:border-yellow-300 transition-all duration-300 hover:scale-105">
+            <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div className="flex items-center gap-6">
+              <img
+                className="border border-gray-600 rounded-full w-15 h-15 object-cover shadow-lg"
+                src={memberImg}
+                alt="Matches"
+              />
+              <div>
+                <h2 className="text-xl font-semibold text-yellow-200">Expired Plan</h2>
+                <p>
+                  Total: <span className="text-cyan-300 font-medium">102</span>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Card 4 */}
           <div className="group relative bg-gradient-to-br from-gray-800/70 to-gray-900/60 border border-gray-700 backdrop-blur-xl rounded-2xl p-6 overflow-hidden shadow-lg hover:shadow-cyan-500/30 hover:border-cyan-400 transition-all duration-300 hover:scale-105">
             <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             <div className="flex items-center gap-6">
@@ -79,16 +92,29 @@ function Dashboard() {
                 alt="Matches"
               />
               <div>
-                <h2 className="text-xl font-semibold text-cyan-400">Matches</h2>
+                <h2 className="text-xl font-semibold text-cyan-400">Groom</h2>
                 <p>
                   Total: <span className="text-cyan-300 font-medium">102</span>
                 </p>
+              </div>
+            </div>
+          </div>
+
+           {/* Card 5 */}
+          <div className="group relative bg-gradient-to-br from-gray-800/70 to-gray-900/60 border border-gray-700 backdrop-blur-xl rounded-2xl p-6 overflow-hidden shadow-lg hover:shadow-cyan-500/30 hover:border-cyan-400 transition-all duration-300 hover:scale-105">
+            <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div className="flex items-center gap-6">
+              <img
+                className="border border-gray-600 rounded-full w-15 h-15 object-cover shadow-lg"
+                src={memberImg}
+                alt="Matches"
+              />
+              <div>
+                <h2 className="text-xl font-semibold text-cyan-400">Bride</h2>
                 <p>
-                  Accepted: <span className="text-green-400 font-medium">67</span>
+                  Total: <span className="text-cyan-300 font-medium">102</span>
                 </p>
-                <p>
-                  Pending: <span className="text-yellow-400 font-medium">35</span>
-                </p>
+                
               </div>
             </div>
           </div>

@@ -4,7 +4,9 @@ import Dashboard from './Dashboard'
 function Users() {
   return (
     <div>
-      <Dashboard />
+      <h2>
+        Users D
+      </h2>
     </div>
   )
 }
