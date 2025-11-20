@@ -113,10 +113,10 @@ function ManagePlans() {
   // UI of Manage Plans
   return (
     <div className='min-h-screen bg-gradient-to-b  from-gray-900 via-gray-950 to-black text-gray-100 "'>
-      <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-950 to-black text-gray-100 p-8">
+      <div className="flex flex-col p-5 border border-gray-600 w-full h-fit rounded-2xl">
         {/* Header */}
-        <div className="flex items-center justify-between mb-10">
-          <h1 className="text-3xl font-extrabold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
+        <div className="flex items-center justify-between mb-10 ">
+          <h1 className="text-2xl font-extrabold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
             Manage Plans
           </h1>
 
@@ -138,7 +138,7 @@ function ManagePlans() {
         </div>
 
         {/* Plans Section */}
-        <h2 className="text-2xl font-semibold mb-4 text-gray-300">
+        <h2 className="text-xl font-semibold mb-4 text-gray-300 border-t p-5 border-gray-600 pb-4">
           Available Plans
         </h2>
 

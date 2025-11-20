@@ -1,17 +1,45 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import memberImg from "../assets/members.png";
 import HomeLayout from "../Layout/HomeLayout";
+import axios, { all } from "axios";
+import { getActiveUsers, getAllUsers, getExpUser } from "../important_Links/api";
 
 function Dashboard() {
+
+  // States
+  const [allData, setAllData] = useState([]);
+  const [allExpiredPlan, setAllExpiredPlan] = useState([]);
+  const [allActivePlan, setAllActivePlan] = useState([]);
+
+    // fetching all users
+    getAllUsers(setAllData);
+
+    // fetching all expired users
+    getExpUser(setAllExpiredPlan);
+
+    // fetching all Active users
+    getActiveUsers(setAllActivePlan);
+
+    console.log(" allExpiredPlan",allExpiredPlan);
+    console.log(" allActivePlan",allActivePlan.count);
+
+    // console.log(allData);
+    console.log(allData);
+
   return (
     // Main Container
     
-      <div className="min-h-screen bg-gradient-to-br  from-gray-900 via-gray-950 to-black text-gray-100 p-10">
+      <div className="flex flex-col p-5 border border-gray-600 w-full h-fit rounded-2xl">
+
         {/* Top Header */}
         <div className="text-center mb-14">
+          <div className="flex justify-start items-center">
+            <h1 className="text-2xl font-extrabold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text mb-5 text-transparent">User Dashboard</h1>
+          </div>
           
-          <p className="text-gray-400 mt-2">
-            Monitor platform insights at a glance
+          <p className="flex justity-start text-xl font-semibold text-gray-300 border-t border-gray-600 pb-4 mt-5 p-3   -mb-10">
+            
+            Monitor platform insights
           </p>
         </div>
 
@@ -28,10 +56,10 @@ function Dashboard() {
               />
               <div>
                 <h2 className="text-xl font-semibold text-indigo-400">
-                  Members
+                  Total Members
                 </h2>
                 <p>
-                  Total: <span className="text-cyan-300 font-medium">63</span>
+                  Total: <span className="text-cyan-300 font-medium">{allData.length}</span>
                 </p>
                 {/* <p>
                   Paid: <span className="text-green-400 font-medium">8</span>
@@ -54,10 +82,10 @@ function Dashboard() {
               />
               <div>
                 <h2 className="text-xl font-semibold text-purple-400">
-                  Active Plan
+                  Active Members
                 </h2>
                 <p>
-                  Active: <span className="text-cyan-300 font-medium">28</span>
+                  Active: <span className="text-cyan-300 font-medium">{allActivePlan.count}</span>
                 </p>
                 
               </div>
@@ -74,9 +102,9 @@ function Dashboard() {
                 alt="Matches"
               />
               <div>
-                <h2 className="text-xl font-semibold text-yellow-200">Expired Plan</h2>
+                <h2 className="text-xl font-semibold text-yellow-200">Expired Members</h2>
                 <p>
-                  Total: <span className="text-cyan-300 font-medium">102</span>
+                  Total: <span className="text-cyan-300 font-medium">{allExpiredPlan.count}</span>
                 </p>
               </div>
             </div>

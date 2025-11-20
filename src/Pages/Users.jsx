@@ -14,6 +14,7 @@ function Users() {
 
   const totalPages = Math.ceil(allUsersList.length / recordsPerPage);
 
+  // Get all users
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_BASE_URL}users/getUser`)
@@ -25,7 +26,20 @@ function Users() {
       });
   }, []);
 
+  // console.log(allUsersList);
   console.log(allUsersList);
+
+
+  // Function to format date
+  const formatDate = (dateString) => {
+  if (!dateString) return "N/A";
+  return new Intl.DateTimeFormat("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  }).format(new Date(dateString));
+};
+
 
   return (
     <div>
@@ -62,8 +76,14 @@ function Users() {
                     <td className="p-2">{user.phone}</td>
                     <td className="p-2">{user.gender}</td>
                     <td className="p-2 text-center">{user.is_subscribed==false?"No":"Yes"}</td>
-                    <td className="p-2">{user.planStatus}</td>
-                    <td className="p-2">{user.expiryDate}</td>
+                    
+                    <td className="p-2">
+                      {formatDate(user?.planDetails?.[0]?.activeDate) }
+                    </td>
+                    <td className="p-2">
+                      {formatDate(user?.planDetails?.[0]?.expiryDate) }
+                    </td>
+
                   </tr>
                 ))}
               </tbody>
