@@ -1,30 +1,34 @@
 import React, { useEffect, useState } from "react";
 import memberImg from "../assets/members.png";
-import HomeLayout from "../Layout/HomeLayout";
-import axios, { all } from "axios";
-import { getActiveUsers, getAllUsers, getExpUser } from "../important_Links/api";
+import { getActiveUsers, getAllBrides, getAllGrooms, getAllUsers, getExpUser } from "../important_Links/api";
+import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
 
+  const navigate = useNavigate();
   // States
   const [allData, setAllData] = useState([]);
   const [allExpiredPlan, setAllExpiredPlan] = useState([]);
   const [allActivePlan, setAllActivePlan] = useState([]);
+  const [allGrooms, setAllGrooms] = useState([]);
+  const [allBrides, setAllBrides] = useState([]);
 
     // fetching all users
     getAllUsers(setAllData);
-
     // fetching all expired users
     getExpUser(setAllExpiredPlan);
-
     // fetching all Active users
     getActiveUsers(setAllActivePlan);
+    // getching all grooms list
+    getAllGrooms(setAllGrooms);
+    // getching all grooms list
+    getAllBrides(setAllBrides);
 
+    // console.log(" allExpiredPlan",allExpiredPlan, allData);
     console.log(" allExpiredPlan",allExpiredPlan);
     console.log(" allActivePlan",allActivePlan.count);
+    console.log(' allData',allData);
 
-    // console.log(allData);
-    console.log(allData);
 
   return (
     // Main Container
@@ -46,7 +50,7 @@ function Dashboard() {
         {/* Dashboard Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
           {/* Card 1 */}
-          <div className="group relative bg-gradient-to-br from-gray-800/70 to-gray-900/60 border border-gray-700 backdrop-blur-xl rounded-2xl p-6 overflow-hidden shadow-lg hover:shadow-indigo-500/30 hover:border-indigo-400 transition-all duration-300 hover:scale-105">
+          <div onClick={()=>navigate('/dashboard/users')} className="group relative bg-gradient-to-br from-gray-800/70 to-gray-900/60 border border-gray-700 backdrop-blur-xl rounded-2xl p-6 overflow-hidden shadow-lg hover:shadow-indigo-500/30 hover:border-indigo-400 transition-all duration-300 hover:scale-105">
             <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             <div className="flex items-center gap-6">
               <img
@@ -72,7 +76,9 @@ function Dashboard() {
           </div>
 
           {/* Card 2 */}
-          <div className="group relative bg-gradient-to-br from-gray-800/70 to-gray-900/60 border border-gray-700 backdrop-blur-xl rounded-2xl p-6 overflow-hidden shadow-lg hover:shadow-purple-500/30 hover:border-purple-400 transition-all duration-300 hover:scale-105">
+          <div onClick={ () => navigate('/dashboard/users', {
+            state: {status: 'active'}
+          })} className="group relative bg-gradient-to-br from-gray-800/70 to-gray-900/60 border border-gray-700 backdrop-blur-xl rounded-2xl p-6 overflow-hidden shadow-lg hover:shadow-purple-500/30 hover:border-purple-400 transition-all duration-300 hover:scale-105">
             <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             <div className="flex items-center gap-6">
               <img
@@ -111,7 +117,10 @@ function Dashboard() {
           </div>
 
           {/* Card 4 */}
-          <div className="group relative bg-gradient-to-br from-gray-800/70 to-gray-900/60 border border-gray-700 backdrop-blur-xl rounded-2xl p-6 overflow-hidden shadow-lg hover:shadow-cyan-500/30 hover:border-cyan-400 transition-all duration-300 hover:scale-105">
+          
+          <div onClick={() => navigate('/dashboard/users', 
+            { state: { gender : "Male" } }
+          )} className="group relative bg-gradient-to-br from-gray-800/70 to-gray-900/60 border border-gray-700 backdrop-blur-xl rounded-2xl p-6 overflow-hidden shadow-lg hover:shadow-cyan-500/30 hover:border-cyan-400 transition-all duration-300 hover:scale-105">
             <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             <div className="flex items-center gap-6">
               <img
@@ -122,14 +131,16 @@ function Dashboard() {
               <div>
                 <h2 className="text-xl font-semibold text-cyan-400">Groom</h2>
                 <p>
-                  Total: <span className="text-cyan-300 font-medium">102</span>
+                  Total: <span className="text-cyan-300 font-medium">{allGrooms.length}</span>
                 </p>
               </div>
             </div>
           </div>
 
            {/* Card 5 */}
-          <div className="group relative bg-gradient-to-br from-gray-800/70 to-gray-900/60 border border-gray-700 backdrop-blur-xl rounded-2xl p-6 overflow-hidden shadow-lg hover:shadow-cyan-500/30 hover:border-cyan-400 transition-all duration-300 hover:scale-105">
+          <div onClick={() => navigate('/dashboard/users',{
+            state: {gender: 'Female'}
+          })} className="group relative bg-gradient-to-br from-gray-800/70 to-gray-900/60 border border-gray-700 backdrop-blur-xl rounded-2xl p-6 overflow-hidden shadow-lg hover:shadow-cyan-500/30 hover:border-cyan-400 transition-all duration-300 hover:scale-105">
             <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             <div className="flex items-center gap-6">
               <img
@@ -140,7 +151,7 @@ function Dashboard() {
               <div>
                 <h2 className="text-xl font-semibold text-cyan-400">Bride</h2>
                 <p>
-                  Total: <span className="text-cyan-300 font-medium">102</span>
+                  Total: <span className="text-cyan-300 font-medium">{allBrides.length}</span>
                 </p>
                 
               </div>

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useLocation } from "react-router-dom";
 
 function Users() {
-
   const [allUsersList, setAllUsersList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 10;
@@ -10,36 +10,87 @@ function Users() {
   // Pagination calculations
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-  const currentRecords = allUsersList.slice(indexOfFirstRecord, indexOfLastRecord);
+  const currentRecords = allUsersList.slice(
+    indexOfFirstRecord,
+    indexOfLastRecord
+  );
 
   const totalPages = Math.ceil(allUsersList.length / recordsPerPage);
 
-  // Get all users
-  useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_BASE_URL}users/getUser`)
-      .then((res) => {
-        setAllUsersList(res.data.users);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  // extract params from navigation
+  const location = useLocation();
+  const gender = location.state?.gender || "";
+  const activeInactiveUsers = location.state?.status || "";
 
-  // console.log(allUsersList);
-  console.log(allUsersList);
+  console.log("Gender :", gender);
+  console.log("Active/Inactive :", activeInactiveUsers);
+
+  /* --------------------------------------------------------
+     FIXED: Single useEffect (React recommended way)
+  --------------------------------------------------------- */
+  useEffect(() => {
+  const fetchData = async () => {
+    try {
+      let url = "";
+      let options = {};
+
+      if (gender) {
+        url = `${import.meta.env.VITE_BASE_URL}users/getUser?gender=${gender}`;
+      } else if (activeInactiveUsers === "active") {
+        url = `${import.meta.env.VITE_BASE_URL}subcription/getActiveUsers`;
+        options = {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        };
+      } else if (activeInactiveUsers === "inactive") {
+        url = `${import.meta.env.VITE_BASE_URL}subcription/getInactiveUsers`;
+        options = {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        };
+      } else {
+        url = `${import.meta.env.VITE_BASE_URL}users/getUser`;
+      }
+
+      const res = await axios.get(url, options);
+      const users = res.data.users || res.data.data || [];
+
+      let formattedUsers = users;
+
+      // ⭐ Fix — Active Users API normalisation
+      if (users.length > 0 && users[0].userDetails) {
+        formattedUsers = users.map((item) => ({
+          _id: item.userDetails._id,
+          fullName: item.userDetails.fullName,
+          email: item.userDetails.email,
+          phone: item.userDetails.phone,
+          gender: item.userDetails.gender,
+          is_subscribed: true,
+          planDetails: [item.latestPlan],
+        }));
+      }
+
+      setAllUsersList(formattedUsers);
+    } catch (error) {
+      console.log("API Error:", error);
+    }
+  };
+
+  fetchData();
+}, [gender, activeInactiveUsers]);
 
 
   // Function to format date
   const formatDate = (dateString) => {
-  if (!dateString) return "N/A";
-  return new Intl.DateTimeFormat("en-GB", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  }).format(new Date(dateString));
-};
-
+    if (!dateString) return "N/A";
+    return new Intl.DateTimeFormat("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    }).format(new Date(dateString));
+  };
 
   return (
     <div>
@@ -71,19 +122,20 @@ function Users() {
                     className="border-b border-gray-600 hover:bg-gray-500"
                   >
                     <td className="p-2">{indexOfFirstRecord + index + 1}</td>
-                    <td className="p-2">{user.fullName}</td>
-                    <td className="p-2">{user.email}</td>
-                    <td className="p-2">{user.phone}</td>
-                    <td className="p-2">{user.gender}</td>
-                    <td className="p-2 text-center">{user.is_subscribed==false?"No":"Yes"}</td>
-                    
-                    <td className="p-2">
-                      {formatDate(user?.planDetails?.[0]?.activeDate) }
-                    </td>
-                    <td className="p-2">
-                      {formatDate(user?.planDetails?.[0]?.expiryDate) }
+                    <td className="p-2">{user.fullName || user[0]?.userDetails.fullName}</td>
+                    <td className="p-2">{user.email || user[0]?.userDetails.email}</td>
+                    <td className="p-2">{user.phone || user[0]?.userDetails.phone}</td>
+                    <td className="p-2">{user.gender || user[0]?.userDetails.gender}</td>
+                    <td className="p-2 text-center">
+                      {user.is_subscribed ? "Yes" : "No"}
                     </td>
 
+                    <td className="p-2">
+                      {formatDate(user?.planDetails?.[0]?.activeDate)}
+                    </td>
+                    <td className="p-2">
+                      {formatDate(user?.planDetails?.[0]?.expiryDate)}
+                    </td>
                   </tr>
                 ))}
               </tbody>
