@@ -116,9 +116,12 @@ function ManagePlans() {
       <div className="flex flex-col p-5 border border-gray-600 w-full h-fit rounded-2xl">
         {/* Header */}
         <div className="flex items-center justify-between mb-10 ">
-          <h1 className="text-2xl font-extrabold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
+          {/* <h1 className="text-2xl font-extrabold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
             Manage Plans
-          </h1>
+          </h1> */}
+
+          {/* search */}
+          <input type="text" placeholder=" Search..." className="px-3 py-2 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ml-5" />
 
           {/* Buttons */}
           <div className="flex gap-4">

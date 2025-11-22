@@ -37,7 +37,7 @@ function Dashboard() {
 
         {/* Top Header */}
         <div className="text-center mb-14">
-          <div className="flex justify-start items-center">
+          <div className="flex justify-between items-center">
             <h1 className="text-2xl font-extrabold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text mb-5 text-transparent">User Dashboard</h1>
           </div>
           
@@ -99,7 +99,9 @@ function Dashboard() {
           </div>
 
           {/* Card 3 */}
-          <div className="group relative bg-gradient-to-br from-gray-800/70 to-gray-900/60 border border-gray-700 backdrop-blur-xl rounded-2xl p-6 overflow-hidden shadow-lg hover:shadow-cyan-500/30 hover:border-yellow-300 transition-all duration-300 hover:scale-105">
+          <div onClick={() => navigate('/dashboard/users', {
+            state: {status: 'inactive'}
+          })} className="group relative bg-gradient-to-br from-gray-800/70 to-gray-900/60 border border-gray-700 backdrop-blur-xl rounded-2xl p-6 overflow-hidden shadow-lg hover:shadow-cyan-500/30 hover:border-yellow-300 transition-all duration-300 hover:scale-105">
             <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             <div className="flex items-center gap-6">
               <img

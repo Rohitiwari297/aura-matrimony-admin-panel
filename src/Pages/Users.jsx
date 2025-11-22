@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
+import { manageUserData } from "../important_Links/api";
 
 function Users() {
   const [allUsersList, setAllUsersList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 10;
+
+  // state variables for search
+  const [searchTerm, setSearchTerm] = useState("");
+
+  console.log("searchTerm", searchTerm);
 
   // Pagination calculations
   const indexOfLastRecord = currentPage * recordsPerPage;
@@ -27,60 +33,13 @@ function Users() {
 
   /* --------------------------------------------------------
      FIXED: Single useEffect (React recommended way)
+     Notes: 
+          1- You can not use multiple useEffect 
+          2- You can not use hooks in conditional statements
   --------------------------------------------------------- */
-  useEffect(() => {
-  const fetchData = async () => {
-    try {
-      let url = "";
-      let options = {};
 
-      if (gender) {
-        url = `${import.meta.env.VITE_BASE_URL}users/getUser?gender=${gender}`;
-      } else if (activeInactiveUsers === "active") {
-        url = `${import.meta.env.VITE_BASE_URL}subcription/getActiveUsers`;
-        options = {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        };
-      } else if (activeInactiveUsers === "inactive") {
-        url = `${import.meta.env.VITE_BASE_URL}subcription/getInactiveUsers`;
-        options = {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        };
-      } else {
-        url = `${import.meta.env.VITE_BASE_URL}users/getUser`;
-      }
-
-      const res = await axios.get(url, options);
-      const users = res.data.users || res.data.data || [];
-
-      let formattedUsers = users;
-
-      // ⭐ Fix — Active Users API normalisation
-      if (users.length > 0 && users[0].userDetails) {
-        formattedUsers = users.map((item) => ({
-          _id: item.userDetails._id,
-          fullName: item.userDetails.fullName,
-          email: item.userDetails.email,
-          phone: item.userDetails.phone,
-          gender: item.userDetails.gender,
-          is_subscribed: true,
-          planDetails: [item.latestPlan],
-        }));
-      }
-
-      setAllUsersList(formattedUsers);
-    } catch (error) {
-      console.log("API Error:", error);
-    }
-  };
-
-  fetchData();
-}, [gender, activeInactiveUsers]);
-
+  // Fetch users data on page load and when gender or activeInactiveUsers changes
+  manageUserData(setAllUsersList, gender, activeInactiveUsers);
 
   // Function to format date
   const formatDate = (dateString) => {
@@ -95,11 +54,18 @@ function Users() {
   return (
     <div>
       <div className="flex flex-col p-5 border border-gray-600 w-full h-fit rounded-2xl">
-        <div className="flex border-b pb-2">
-          <h1 className="text-lg font-semibold">Users List</h1>
+        <div className="flex border-b pb-2  items-center ">
+          {/* search */}
+          <input
+            onChange={(e) => setSearchTerm(e.target.value.toLowerCase())}
+            type="text"
+            placeholder=" Search..."
+            className="px-3 mb-5 py-2 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ml-5"
+          />
         </div>
 
         <div className="flex flex-col gap-5 mt-5">
+          <h1 className="text-lg font-semibold">Users List</h1>
           <div>
             <table className="table-auto w-full border border-gray-600">
               <thead>
@@ -116,28 +82,43 @@ function Users() {
               </thead>
 
               <tbody>
-                {currentRecords.map((user, index) => (
-                  <tr
-                    key={user._id || index}
-                    className="border-b border-gray-600 hover:bg-gray-500"
-                  >
-                    <td className="p-2">{indexOfFirstRecord + index + 1}</td>
-                    <td className="p-2">{user.fullName || user[0]?.userDetails.fullName}</td>
-                    <td className="p-2">{user.email || user[0]?.userDetails.email}</td>
-                    <td className="p-2">{user.phone || user[0]?.userDetails.phone}</td>
-                    <td className="p-2">{user.gender || user[0]?.userDetails.gender}</td>
-                    <td className="p-2 text-center">
-                      {user.is_subscribed ? "Yes" : "No"}
-                    </td>
+                {currentRecords.map(
+                  (user, index) =>
+                    user.phone.toLowerCase().includes(searchTerm) && (
+                      <tr
+                        key={user._id || index}
+                        className="border-b border-gray-600 hover:bg-gray-500"
+                      >
+                        <td className="p-2">
+                          {indexOfFirstRecord + index + 1}
+                        </td>
+                        <td className="p-2">
+                          {user.fullName ||
+                            user[0]?.userDetails.fullName ||
+                            user[0]?.userDetails[0].fullName}
+                        </td>
+                        <td className="p-2">
+                          {user.email || user[0]?.userDetails.email}
+                        </td>
+                        <td className="p-2">
+                          {user.phone || user[0]?.userDetails.phone}
+                        </td>
+                        <td className="p-2">
+                          {user.gender || user[0]?.userDetails.gender}
+                        </td>
+                        <td className="p-2 text-center">
+                          {user.is_subscribed ? "Yes" : "No"}
+                        </td>
 
-                    <td className="p-2">
-                      {formatDate(user?.planDetails?.[0]?.activeDate)}
-                    </td>
-                    <td className="p-2">
-                      {formatDate(user?.planDetails?.[0]?.expiryDate)}
-                    </td>
-                  </tr>
-                ))}
+                        <td className="p-2">
+                          {formatDate(user?.planDetails?.[0]?.activeDate)}
+                        </td>
+                        <td className="p-2">
+                          {formatDate(user?.planDetails?.[0]?.expiryDate)}
+                        </td>
+                      </tr>
+                    )
+                )}
               </tbody>
             </table>
           </div>
