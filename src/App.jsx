@@ -12,6 +12,7 @@ import ManagePlans from "./Pages/ManagePlans";
 import Users from "./Pages/Users";
 import Login from "./Pages/Login";
 import PrivateRoute from "./helpers/PrivateRoutes";
+import ChangePassword from "./Pages/ChangePassword";
 
 function App() {
   return (
@@ -36,6 +37,8 @@ function App() {
             <Route index element={<Dashboard />} />
             <Route path="manage-plans" element={<ManagePlans />} />
             <Route path="users" element={<Users />} />
+            <Route path="login" element={<Login />} />
+            <Route path="change-password" element={<ChangePassword />} />
           </Route>
         </Route>
       </Routes>

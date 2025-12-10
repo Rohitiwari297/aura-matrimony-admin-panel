@@ -121,7 +121,7 @@ function Dashboard() {
           {/* Card 4 */}
           
           <div onClick={() => navigate('/dashboard/users', 
-            { state: { gender : "Male" } }
+            { state: { gender : "MALE" } }
           )} className="group relative bg-gradient-to-br from-gray-800/70 to-gray-900/60 border border-gray-700 backdrop-blur-xl rounded-2xl p-6 overflow-hidden shadow-lg hover:shadow-cyan-500/30 hover:border-cyan-400 transition-all duration-300 hover:scale-105">
             <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             <div className="flex items-center gap-6">
@@ -141,7 +141,7 @@ function Dashboard() {
 
            {/* Card 5 */}
           <div onClick={() => navigate('/dashboard/users',{
-            state: {gender: 'Female'}
+            state: {gender: 'FEMALE'}
           })} className="group relative bg-gradient-to-br from-gray-800/70 to-gray-900/60 border border-gray-700 backdrop-blur-xl rounded-2xl p-6 overflow-hidden shadow-lg hover:shadow-cyan-500/30 hover:border-cyan-400 transition-all duration-300 hover:scale-105">
             <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             <div className="flex items-center gap-6">

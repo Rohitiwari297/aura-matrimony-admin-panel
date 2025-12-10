@@ -6,8 +6,8 @@ import App from './App.jsx'
 import { BrowserRouter } from 'react-router-dom'
 
 createRoot(document.getElementById('root')).render(
-  // <React.StrictMode>
-    <BrowserRouter>
+  // <React.StrictMode>       
+    <BrowserRouter basename='shyam-aura'>     
       <App />
     </BrowserRouter>
   // </React.StrictMode>,

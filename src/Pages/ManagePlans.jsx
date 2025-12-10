@@ -75,9 +75,12 @@ function ManagePlans() {
       console.log('selectedPlanId',selectedPlanId);
       // const endUrl = `subscriptionPlans/update/${selectedPlanId}`;
       await updateApi(token, `subscriptionPlans/edit/${selectedPlanId}`, body);
-      
-      // Refresh list
-      await getApi(token, setPlanDetails, "subscriptionPlans/all");
+
+      setPlanDetails((prev) =>
+      prev.map((plan) =>
+        plan._id === selectedPlanId ? { ...plan, ...body } : plan
+      )
+    );
 
       // Reset values
       setPlanName("");
@@ -163,6 +166,12 @@ function ManagePlans() {
                 </p>
                 <p> {plan.maxMessageRequests} </p>
               </div>
+               <div className=" flex justify-between">
+                <p className="text-gray-400 text-sm mb-4">
+                  Validity Days :
+                </p>
+                <p> {plan.validity_days} </p>
+              </div>
 
               <div className="flex justify-between mt-4 text-sm">
                 <span className="text-green-400 font-semibold">
@@ -198,7 +207,7 @@ function ManagePlans() {
 
       {/* model for the create plan */}
       {createPlan && (
-        <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-900 bg-opacity-50">
+        <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur-sm  bg-opacity-50">
           <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-100">
             <h2 className="text-2xl font-bold mb-4 text-white">
               Create New Plan
@@ -274,7 +283,7 @@ function ManagePlans() {
 
       {/* model for the update plan */}
       {updatePlan && (
-        <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-900 bg-opacity-50">
+        <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur-sm bg-opacity-50">
           <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-100">
             <h2 className="text-2xl font-bold mb-4 text-white">Update Plan</h2>
             <form onSubmit={handleUpdatePlan}>
@@ -300,6 +309,18 @@ function ManagePlans() {
                   className="w-full p-2 rounded-lg bg-gray-700 text-white"
                   value={planRate}
                   onChange={(e) => setPlanRate(e.target.value)}
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="planPrice" className="block text-white">
+                  Validity (in days)
+                </label>
+                <input
+                  type="number"
+                  id="validityDays"
+                  className="w-full p-2 rounded-lg bg-gray-700 text-white"
+                  value={validityDays}
+                  onChange={(e) => setValidityDays(e.target.value)}
                 />
               </div>
               <div className="mb-4">

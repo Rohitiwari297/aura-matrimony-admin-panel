@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import { useState } from "react";
-import { Menu, X, Home, User, Settings, LogOut } from "lucide-react";
+import { Menu, X, Home, User, Settings, LogOut, Lock, User2, Users, ClipboardList } from "lucide-react";
 import profileImge from "../assets/members.png";
 
 const HomeLayout = () => {
@@ -50,7 +50,7 @@ const HomeLayout = () => {
               }`
             }
           >
-            <User size={20} />
+            <ClipboardList size={20} />
             <span>Manage Plans</span>
           </NavLink>
 
@@ -64,18 +64,33 @@ const HomeLayout = () => {
               }`
             }
           >
-            <Settings size={20} />
+            <Users size={20} />
             <span>Users</span>
+          </NavLink>
+
+          {/* Change Password */}
+          <NavLink
+            to="/dashboard/change-password"
+            onClick={() => setIsOpen(false)}
+            className={({ isActive }) =>
+              `flex items-center gap-3 px-6 py-3 text-white hover:bg-gray-700 transition ${
+                isActive ? "bg-gray-700 font-semibold" : ""
+              }`
+            }
+          >
+            <Lock size={20} />
+            <span>Change Password</span>
           </NavLink>
         </nav>
 
         {/* Logout Button */}
         <div className="absolute bottom-4 left-0 w-full px-6">
           <NavLink
-            to="/"
             onClick={() => {
               localStorage.removeItem("token");
               setIsOpen(false);
+              alert("Logout Successfully");
+              window.location.href = "/";
             }}
             className="flex items-center gap-3 px-6 py-3 text-white hover:bg-gray-700 transition"
           >
