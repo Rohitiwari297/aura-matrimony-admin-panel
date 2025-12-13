@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { token } from "../important_Links/url";
 import { loginWithOtp, sendOtp } from "../important_Links/api";
 import { BiLoader } from "react-icons/bi";
-import { Loader } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
@@ -18,13 +17,14 @@ export default function Login() {
   const navigate = useNavigate();
 
   // defining login
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // try to login
     try {
       // send request to backend
-      axios
+      setLoader(true);
+      await axios
         .post(`${import.meta.env.VITE_BASE_URL}users/login`, {
           email,
           password,
@@ -40,7 +40,10 @@ export default function Login() {
           alert(err.response.data.message);
           alert(err.response.data.error);
         });
+
+        setLoader(false);
     } catch (error) {
+      setLoader(false);
       console.log(error);
       alert(error.message);
     }
@@ -113,10 +116,10 @@ export default function Login() {
         </h2>
 
         <h1 className="text-7xl  font-extrabold text-black drop-shadow-white-2xl leading-tight">
-          Shyam Aura
+          ShyamAuRa
         </h1>
         <h1 className="text-7xl -mt-26  font-extrabold  text-pink-600 drop-shadow-white-2xl leading-tight">
-          Shyam Aura
+          ShyamAuRa
         </h1>
 
         <h2 className="text-3xl font-semibold text-black drop-shadow-lg">
@@ -193,10 +196,24 @@ export default function Login() {
                   className="p-3 rounded-lg bg-gray-800/60 border border-white/20 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-500"
                 />
               )}
-
-              <button className="bg-pink-600 hover:bg-pink-700 transition p-3 rounded-lg font-semibold mt-2 shadow-lg shadow-pink-600/40">
+              {loader === true ? (
+                <button
+                  disabled
+                  className="bg-pink-600 hover:bg-pink-700 flex justify-center items-center transition p-3 rounded-lg font-semibold mt-2 shadow-lg shadow-pink-600/40"
+                >
+                  <BiLoader className="animate-spin text-pink-600 size-8" />
+                </button>
+              ) : (
+                <button
+                  type="submit"
+                  className="bg-pink-600 hover:bg-pink-700 transition p-3 rounded-lg font-semibold mt-2 shadow-lg shadow-pink-600/40"
+                >
+                  {isSignUp ? "Sign Up" : "Sign In"}
+                </button>
+              )}
+              {/* <button className="bg-pink-600 hover:bg-pink-700 transition p-3 rounded-lg font-semibold mt-2 shadow-lg shadow-pink-600/40">
                 {isSignUp ? "Sign Up" : "Sign In"}
-              </button>
+              </button> */}
             </form>
           )}
 

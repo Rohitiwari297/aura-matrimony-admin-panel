@@ -8,6 +8,8 @@ function Users() {
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 10;
 
+  console.log("allUsersList", allUsersList);
+
   // state variables for search
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -51,6 +53,26 @@ function Users() {
     }).format(new Date(dateString));
   };
 
+
+  // search function
+
+  const getUserField = (user, field) => {
+  return (
+    user?.[field] ||
+    user?.[0]?.userDetails?.[field] ||
+    user?.[0]?.userDetails?.[0]?.[field] ||
+    ""
+  );
+};
+
+  const matchSearch = (user , searchTerm) => {
+    const turm = searchTerm.toLowerCase();
+
+    return ["fullName", "email", "phone"].some(field => 
+      getUserField(user, field).toLowerCase().includes(turm)
+    );
+  };
+
   return (
     <div>
       <div className="flex flex-col p-5 border border-gray-600 w-full h-fit rounded-2xl">
@@ -84,7 +106,7 @@ function Users() {
               <tbody>
                 {currentRecords.map(
                   (user, index) =>
-                    user.phone.toLowerCase().includes(searchTerm) && (
+                    matchSearch(user, searchTerm) && (
                       <tr
                         key={user._id || index}
                         className="border-b border-gray-600 hover:bg-gray-500"

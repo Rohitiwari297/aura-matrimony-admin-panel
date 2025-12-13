@@ -1,8 +1,9 @@
 import React from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import { useState } from "react";
-import { Menu, X, Home, User, Settings, LogOut, Lock, User2, Users, ClipboardList } from "lucide-react";
+import { Menu, X, Home, User, Settings, LogOut, Lock, User2, Users, ClipboardList, Calculator, MessageCircleCodeIcon } from "lucide-react";
 import profileImge from "../assets/members.png";
+import { BiNotification } from "react-icons/bi";
 
 const HomeLayout = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -66,6 +67,34 @@ const HomeLayout = () => {
           >
             <Users size={20} />
             <span>Users</span>
+          </NavLink>
+
+          {/* Numerology */}
+          <NavLink
+            to="/dashboard/numerology"
+            onClick={() => setIsOpen(false)}
+            className={({ isActive }) =>
+              `flex items-center gap-3 px-6 py-3 text-white hover:bg-gray-700 transition ${
+                isActive ? "bg-gray-700 font-semibold" : ""
+              }`
+            }
+          >
+            <Calculator size={20} />
+            <span>Numerology</span>
+          </NavLink>
+
+          {/* Notifications */}
+          <NavLink
+            to="/dashboard/notification"
+            onClick={() => setIsOpen(false)}
+            className={({ isActive }) =>
+              `flex items-center gap-3 px-6 py-3 text-white hover:bg-gray-700 transition ${
+                isActive ? "bg-gray-700 font-semibold" : ""
+              }`
+            }
+          >
+            <MessageCircleCodeIcon size={20} />
+            <span>Notifications</span>
           </NavLink>
 
           {/* Change Password */}
