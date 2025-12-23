@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import memberImg from "../assets/members.png";
 import { getActiveUsers, getAllBrides, getAllGrooms, getAllUsers, getExpUser } from "../important_Links/api";
 import { useNavigate } from "react-router-dom";
+import { token } from "../important_Links/url";
 
 function Dashboard() {
 
@@ -18,7 +19,7 @@ function Dashboard() {
     // fetching all expired users
     getExpUser(setAllExpiredPlan);
     // fetching all Active users
-    getActiveUsers(setAllActivePlan);
+    getActiveUsers(setAllActivePlan, token);
     // getching all grooms list
     getAllGrooms(setAllGrooms);
     // getching all grooms list

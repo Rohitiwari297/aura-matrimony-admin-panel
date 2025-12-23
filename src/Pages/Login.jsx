@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { token } from "../important_Links/url";
-import { loginWithOtp, sendOtp } from "../important_Links/api";
+import { logInWithCredantial, loginWithOtp, sendOtp } from "../important_Links/api";
 import { BiLoader } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 
@@ -12,6 +12,7 @@ export default function Login() {
   const [otp, setOtp] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [roleType, setRoleType] = useState("admin");
   const [loader, setLoader] = useState(false);
 
   const navigate = useNavigate();
@@ -19,34 +20,7 @@ export default function Login() {
   // defining login
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // try to login
-    try {
-      // send request to backend
-      setLoader(true);
-      await axios
-        .post(`${import.meta.env.VITE_BASE_URL}users/login`, {
-          email,
-          password,
-        })
-        .then((res) => {
-          console.log(res);
-          alert(res.data.message);
-          localStorage.setItem("token", res.data.token);
-          window.location.href = "/shyam-aura/dashboard";
-        })
-        .catch((err) => {
-          console.log(err);
-          alert(err.response.data.message);
-          alert(err.response.data.error);
-        });
-
-        setLoader(false);
-    } catch (error) {
-      setLoader(false);
-      console.log(error);
-      alert(error.message);
-    }
+    logInWithCredantial(setLoader, email, password, roleType);
   };
 
   // login with OTP

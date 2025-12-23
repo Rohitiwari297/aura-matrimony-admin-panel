@@ -61,7 +61,7 @@ function Numerology() {
   }, [searchTerm]);
 
   return (
-    <div className="p-5 border border-gray-700 rounded-2xl">
+    <div className="flex flex-col p-5 border border-gray-600 w-full h-fit rounded-2xl">
       {/* Search */}
       <div className="mb-5">
         <input
@@ -73,20 +73,20 @@ function Numerology() {
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto rounded-xl border border-gray-700 shadow-lg">
-        <table className="min-w-full text-sm text-left text-gray-200">
+      <div className="flex flex-col gap-5 mt-5">
+        <table className="table-auto w-full border border-gray-600">
           <thead className="bg-gradient-to-r from-gray-400 to-gray-500 text-gray-100 uppercase text-xs tracking-wider">
-            <tr>
-              <th className="px-4 py-3">Name</th>
-              <th className="px-4 py-3">Email</th>
-              <th className="px-4 py-3">Mobile</th>
-              <th className="px-4 py-3">Gender</th>
-              <th className="px-4 py-3 text-center">Birth Date</th>
-              <th className="px-4 py-3">Birth Place</th>
-              <th className="px-4 py-3">Birth Time</th>
-              <th className="px-4 py-3">Payment (₹)</th>
-              <th className="px-4 py-3 text-center">Status</th>
-              <th className="px-4 py-3 text-center">PDF</th>
+            <tr className="bg-gray-600 border-b border-gray-600">
+              <th className="p-2 text-left">Name</th>
+              <th className="p-2 text-left">Email</th>
+              <th className="p-2 text-left">Mobile</th>
+              <th className="p-2 text-left">Gender</th>
+              <th className="p-2 text-left">Birth Date</th>
+              <th className="p-2 text-left">Birth Place</th>
+              <th className="p-2 text-left">Birth Time</th>
+              <th className="p-2 text-left">Payment (₹)</th>
+              <th className="p-2 text-left">Status</th>
+              <th className="p-2 text-left">PDF</th>
             </tr>
           </thead>
 
@@ -95,41 +95,41 @@ function Numerology() {
               currentRecords.map((data, index) => (
                 <tr
                   key={index}
-                  className="bg-gray-800 hover:bg-gray-700 transition"
+                  className="border-b border-gray-600 hover:bg-gray-500"
                 >
-                  <td className="px-4 py-3 font-medium whitespace-nowrap">
+                  <td className="p-2 font-medium whitespace-nowrap">
                     {data.fullName}
                   </td>
 
-                  <td className="px-4 py-3">
+                  <td className="p-2">
                     {data.email || "demo@gmail.com"}
                   </td>
 
-                  <td className="px-4 py-3">
+                  <td className="p-2">
                     {data.phone || "1234567890"}
                   </td>
 
-                  <td className="px-4 py-3 capitalize">
+                  <td className="p-2 capitalize">
                     {data.gender || "Male"}
                   </td>
 
-                  <td className="px-4 py-3 text-center">
+                  <td className="p-2">
                     {data.birthDate || "N/A"}
                   </td>
 
-                  <td className="px-4 py-3">
+                  <td className="p-2">
                     {data.birthPlace || "N/A"}
                   </td>
 
-                  <td className="px-4 py-3">
+                  <td className="p-2">
                     {data.birthTime || "N/A"}
                   </td>
 
-                  <td className="px-4 py-3 font-semibold">
+                  <td className="p-2">
                     {data.paymentOf || "N/A"}
                   </td>
 
-                  <td className="px-4 py-3 text-center">
+                  <td className="p-2">
                     {data.paymentStatus ? (
                       <span className="px-3 py-1 rounded-full text-xs bg-green-600/20 text-green-400">
                         Paid
@@ -141,7 +141,7 @@ function Numerology() {
                     )}
                   </td>
 
-                  <td className="px-4 py-3 text-center">
+                  <td className="p-2 text-[12px]">
                     {data.pdfUrl ? (
                       <a
                         href={data.pdfUrl}
@@ -149,10 +149,10 @@ function Numerology() {
                         rel="noopener noreferrer"
                         className="text-indigo-400 hover:underline"
                       >
-                        View PDF
+                        PDF
                       </a>
                     ) : (
-                      <span className="text-gray-400">No PDF</span>
+                      <span className="text-gray-400">No</span>
                     )}
                   </td>
                 </tr>
