@@ -15,6 +15,7 @@ import PrivateRoute from "./helpers/PrivateRoutes";
 import ChangePassword from "./Pages/ChangePassword";
 import Numerology from "./Pages/Numerology";
 import Notication from "./Pages/Notication";
+import NumeroProdLists from "./Pages/NumeroProdLists";
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
             <Route path="login" element={<Login />} />
             <Route path="change-password" element={<ChangePassword />} />
             <Route path="/dashboard/numerology" element={<Numerology />} />
+            <Route path="/dashboard/numerology-list" element={<NumeroProdLists />} />
             <Route path="/dashboard/notification" element={<Notication />} />
           </Route>
         </Route>

@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import { useState } from "react";
-import { Menu, X, Home, User, Settings, LogOut, Lock, User2, Users, ClipboardList, Calculator, MessageCircleCodeIcon } from "lucide-react";
+import { Menu, X, Home, User, Settings, LogOut, Lock, User2, Users, ClipboardList, Calculator, MessageCircleCodeIcon, List } from "lucide-react";
 import profileImge from "../assets/members.png";
 import { BiNotification } from "react-icons/bi";
 
@@ -81,6 +81,20 @@ const HomeLayout = () => {
           >
             <Calculator size={20} />
             <span>Numerology</span>
+          </NavLink>
+
+           {/* Numerology List */}
+          <NavLink
+            to="/dashboard/numerology-list"
+            onClick={() => setIsOpen(false)}
+            className={({ isActive }) =>
+              `flex items-center gap-3 px-6 py-3 text-white hover:bg-gray-700 transition ${
+                isActive ? "bg-gray-700 font-semibold" : ""
+              }`
+            }
+          >
+            <List size={20} />
+            <span>Numero Products List</span>
           </NavLink>
 
           {/* Notifications */}
